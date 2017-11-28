@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome to PriCoSha</title>
-    <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='jquery-3.2.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='main.js')}}"></script>
+    
 </head>
 <body>
     <h2>Hello and welcome to Private Content Share</h2>
     <p>Please</p><button id="login" >login</button><p> or </p><button id="reg">register</button>
+    
     <div class="authField">
         <div id="loginField" hidden="hidden">
             <h3>User Login</h3>
@@ -19,9 +21,15 @@
         <div id="regField" hidden="hidden">
             <h3>New User Registration</h3>
             <!--TODO: Error Box showing that user name exists -->
+            <p>Enter your first name</p><input type="text" id="regfname" name="fname">
+            <p>Enter your last name</p><input type="text" id="reglname" name="lname">
             <p>Set Your Username</p><input type="text" id="regName" name="username">
             <p>Set A Good Password</p><input type="password" id="regPass" name="password">
+            
             <button id="regGo">Join</button>
+        </div>
+        <div class="msgbox" hidden="hidden">
+            <p id="msg"></p>
         </div>
     </div>
 </body>

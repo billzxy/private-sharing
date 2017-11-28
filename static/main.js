@@ -1,5 +1,7 @@
 var username;
 var password;
+var lname="";
+var fname="";
 var buttonready=true;
 
 $(document).ready(function(){
@@ -9,73 +11,96 @@ $(document).ready(function(){
     $("#login").click(function(){
         rfield.attr("hidden","hidden");
         lfield.removeAttr("hidden");
+        $(".msgbox").attr("hidden","hidden");
     });
     $("#reg").click(function(){
         rfield.removeAttr("hidden");
         lfield.attr("hidden","hidden");
+        $(".msgbox").attr("hidden","hidden");
     });
 
     $("#loginGo").click(
         function(){
             if(buttonready){
             getInputs("login");
-            if(checkInputs()){
+            if(checkInputs("login")){
                 buttonready=false;
-                submitInfo();
+                submitInfo("loginAuth");
             }
         }}
     );
     $("#regGo").click(function(){
         if(buttonready){
         getInputs("reg");
-        if(checkInputs()){
+        if(checkInputs("reg")){
             buttonready=false
-            submitInfo();
+            submitInfo("registerAuth");
         }}
     });
 
 
 });
 
-function submitInfo(){
-    alert("Username: "+username+"\nPassword: "+password);
-    buttonready=true;
-}
-/*
-function submitInfo(){
-    var dataJson = {
-        "name":username,
-        "pass":password
-    };
+function submitInfo(destination){
+    var dataJson;
+    if(destination==="registerAuth"){
+        dataJson = {
+            "name":username,
+            "pass":password,
+            "fname":fname,
+            "lname":lname
+        
+        }
+    }else{
+        dataJson = {
+            "name":username,
+            "pass":password
+        };
+    }
     $.ajax(
         {
-            url:"",
+            url:destination,
             type:"POST",
             data:JSON.stringify(dataJson),
             contentType:"application/json",
             dataType:"text",
             timeout:60000,
-            error:function () {alert("Communication Error, contact dev immediately");},
-            success:function (data) {
-                if(data==="ok") {
-                    redirectSuccess();
+            error:function () {alert("Communication Error, contact dev");},
+            success:function (response) {
+                var data = JSON.parse(response);
+                if(data['error']) {
+                    showErrorMsg(data['error']);
+                    buttonready=true;
                 }else{
-                    alert(data);
-                    redirectFailed();
+                    window.location.replace("/feed");
                 }
             }
         }
     )
-}*/
+}
+
+function showErrorMsg(msg){
+    $(".msgbox").removeAttr("hidden");
+    $("#msg").text(msg);
+}
 
 function getInputs(section) {
+    if(section==="reg"){
+        fname = $("#regfname").val();
+        lname = $("#reglname").val();
+    }
     username = $("#"+section+"Name").val();
     password = $("#"+section+"Pass").val();
 }
 
 //illegal character regex
 var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
-function checkInputs(){
+function checkInputs(type){
+    if(type==="reg"){     
+        if(!checkRealname()){
+            return false;
+        }
+    }
     if(!checkUsername()){
         alert("User name should not be empty, be more than 16 characters"+
             ", or contain illegal characters");
@@ -98,4 +123,17 @@ function checkPassword(){
         return false;
     }
     return true;   
+}
+function checkRealname(){
+    if(fname===""||lname===""){
+            alert("First name or last name cannot be empty!");
+            return false;   
+    }else if(pattern.test(fname)||pattern.test(lname)){
+        alert("Well, you really have a weird name; stop messing around and retry!");
+        return false;
+    }else if(fname.length>50||lname.length>50){
+        alert("First name or last name cannot exceed 50 characters");
+        return false;
+    }
+    return true;
 }
