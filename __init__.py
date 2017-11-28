@@ -1,15 +1,16 @@
 from flask import Flask, render_template, request, session, url_for, redirect,jsonify
+from datetime import timedelta
 import pymysql.cursors
+import dbconfig
 
 app = Flask(__name__)
 
-conn = pymysql.connect(host='localhost',
-                       user='root',
-                       password='billzxy', #
-                       db='pricosha',
-                       charset='utf8mb4',
-                       cursorclass=pymysql.cursors.DictCursor)
+conn = dbconfig.getConnection()
 
+@app.before_request
+def session_timeout():
+	session.permanent = True
+	app.permanent_session_lifetime = timedelta(minutes=20)
 
 @app.route('/')
 def main():
@@ -74,7 +75,7 @@ def logout():
 	session.pop('username')
 	return redirect('/')
 		
-app.secret_key = 'some key that you will never guess'
+app.secret_key = 'some key that you will never guess' #TBD
 
 if __name__ == "__main__":
 	app.run('127.0.0.1', 8080, debug = True)
