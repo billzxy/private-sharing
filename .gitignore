@@ -1,5 +1,7 @@
+#this project
 .idea
 test.*
+dbconfig.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
