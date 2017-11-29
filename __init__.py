@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, url_for, redirect,js
 from datetime import timedelta
 import pymysql.cursors
 import dbconfig
+from password import hashPassword
 
 app = Flask(__name__)
 
@@ -24,7 +25,7 @@ def main():
 def loginAuth():
 	content = request.get_json(silent=True)
 	username = content['name']
-	password = content['pass']
+	password = hashPassword(content['pass'])
 
 	cursor = conn.cursor()
 	query = 'SELECT * FROM person WHERE username = %s and password = %s'
@@ -42,7 +43,7 @@ def loginAuth():
 def registerAuth():
 	content = request.get_json(silent=True)
 	username = content['name']
-	password = content['pass']
+	password = hashPassword(content['pass'])
 	firstname = content['fname']
 	lastname = content['lname']
 
