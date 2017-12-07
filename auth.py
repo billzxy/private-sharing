@@ -3,8 +3,9 @@ import dbconfig
 
 from password import hashPassword
 
-auth = Blueprint('auth', __name__)
+auth = Blueprint('auth_blueprint', __name__)
 conn = dbconfig.getConnection()
+
 
 @auth.route('/loginAuth', methods=['POST'])
 def loginAuth():
@@ -20,9 +21,10 @@ def loginAuth():
 
     if (data):
         session['username'] = username
-        return jsonify("ok")
+        return jsonify({"username":username})
     else:
         return jsonify({"error": "Invalid login or username"})
+
 
 @auth.route('/registerAuth', methods=['POST'])
 def registerAuth():
@@ -45,7 +47,8 @@ def registerAuth():
         conn.commit()
         cursor.close()
         session['username'] = username
-        return jsonify("ok")
+        return jsonify({"username":username})
+
 
 @auth.route('/logout')
 def logout():

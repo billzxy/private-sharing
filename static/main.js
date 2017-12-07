@@ -72,6 +72,7 @@ function submitInfo(destination){
                     showErrorMsg(data['error']);
                     buttonready=true;
                 }else{
+                    $.cookie("username",data['username']);
                     window.location.replace("/feed");
                 }
             }

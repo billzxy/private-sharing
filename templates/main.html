@@ -5,6 +5,7 @@
     <title>Welcome to PriCoSha</title>
     <script type="text/javascript" src="{{url_for('static', filename='jquery-3.2.1.min.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='main.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='jquery.cookie.js')}}"></script>
     
 </head>
 <body>
@@ -20,7 +21,6 @@
         </div>
         <div id="regField" hidden="hidden">
             <h3>New User Registration</h3>
-            <!--TODO: Error Box showing that user name exists -->
             <p>Enter your first name</p><input type="text" id="regfname" name="fname">
             <p>Enter your last name</p><input type="text" id="reglname" name="lname">
             <p>Set Your Username</p><input type="text" id="regName" name="username">
