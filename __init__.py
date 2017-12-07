@@ -22,16 +22,13 @@ def session_timeout():
 def main():
     try:
         if (session["username"]):
-            return redirect(url_for('feed'))
+            return redirect('/feed')
     except:
         return render_template('main.html')
 
 
 app.secret_key = 'some key that you will never guess'  # TBD
 
-
-def getUploadConfig():
-    return app.config["UPLOAD_FOLDER"]
 
 
 if __name__ == "__main__":

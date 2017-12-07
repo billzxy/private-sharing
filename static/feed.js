@@ -26,7 +26,7 @@ $(document).ready(function(){
 
                 }else{
                     dataCount = data['count'];
-                    showPageBar();
+                    //showPageBar();
                     getData();
                 }
         }
@@ -56,14 +56,16 @@ function getData(){
                 if(dataDict["error"]){
                     showErrorMsg(dataDict["error"]);
                 }else{
+                    var feedList = $("#feed_list");
+                    feedList.empty();
                     var dataList = dataDict["data"];
-                    for(var id=0; id<dataList.length;i++){
+                    for(var id=0; id<dataList.length;id++){
                         var tr = "<tr>" +
                             "<td>Content name:"+dataList[id]['content_name']+"</td>" +
-                            "<td>"+dataList[id]['img']+"</td>"+
+                            "<td><img src=\"data:image/png;base64, "+dataList[id]['img']+"\" /></td>"+
                             "</tr>";
-                        var feedList = $("#feed_list");
-                        feedList.empty();
+
+
                         feedList.append(tr);
                     }
 
@@ -85,6 +87,9 @@ function showPageBar(){
     }
 }
 
+function stripBase64Img(imgString){
+
+}
 
 function getPosts(){
 
