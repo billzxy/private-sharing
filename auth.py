@@ -33,7 +33,6 @@ def registerAuth():
     password = hashPassword(content['pass'])
     firstname = content['fname']
     lastname = content['lname']
-
     cursor = conn.cursor()
     query = 'SELECT * FROM person WHERE username = %s'
     cursor.execute(query, (username))

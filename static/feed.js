@@ -31,6 +31,19 @@ $(document).ready(function(){
                 }
         }
     });
+    /*
+    $("#userDropdown").click(function(){
+        if(!userDropDown){
+            $("#userDropdown").addClass('nav-item dropdown show').removeClass('nav-item dropdown');
+            $("#userDropDownMenu").attr("aria-expanded",true);
+            userDropDown = true;
+        }else{
+            $("#userDropdown").addClass('nav-item dropdown').removeClass('nav-item dropdown show');
+            $("#userDropDownMenu").attr("aria-expanded",false);
+            userDropDown = false;
+        }
+    });*/
+
 
 });
 
@@ -60,13 +73,16 @@ function getData(){
                     feedList.empty();
                     var dataList = dataDict["data"];
                     for(var id=0; id<dataList.length;id++){
-                        var tr = "<tr>" +
-                            "<td>Content name:"+dataList[id]['content_name']+"</td>" +
-                            "<td><img src=\"data:image/png;base64, "+dataList[id]['img']+"\" /></td>"+
-                            "</tr>";
-
-
-                        feedList.append(tr);
+                        var content = "<div class='apost'><div class=\"card\" style=\"width:275px\">\n" +
+                            "    <img class=\"card-img-top\" src=\"data:image/png;base64, "+dataList[id]['img']+"\" alt=\"Card image\" style=\"width:100%\">\n" +
+                            "    <div class=\"card-body\">\n" +
+                            "      <h4 class=\"card-title\">"+dataList[id]['content_name']+"</h4>\n" +
+                            "      <p class=\"card-text\">Uploaded By: "+dataList[id]['username']+"</p>\n" +
+                            "      <p class=\"card-text\">Date Uploaded: "+dataList[id]['timest']+"</p>\n" +
+                            "      <a href=\"#\" class=\"btn btn-primary\">See Profile</a>\n" +
+                            "    </div>\n" +
+                            "  </div></div>";
+                        feedList.append(content);
                     }
 
                 }
@@ -76,7 +92,7 @@ function getData(){
 
 function showErrorMsg(msg){
     $(".msgbox").removeAttr("hidden");
-    $("#msg").text(msg);
+    $("#msg").html("<strong>Oops! </strong>"+msg);
 }
 
 function showPageBar(){

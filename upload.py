@@ -38,43 +38,21 @@ def upload_content():
         return redirect("/feed")
     if file and allowed_file(file.filename):
         username = session["username"]
-        privacy = 0 #TODO:change
+        content_name = request.form["contname"]
+        privacy = 1 #TODO:change
         filename = trim_filename_length(secure_filename(file.filename))
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
         cursor = conn.cursor()
         ins = 'INSERT INTO content (username, file_path, content_name, public)VALUES(%s, %s, %s,%s)'
-        cursor.execute(ins, (username, filepath, filename, int(privacy)))
+        cursor.execute(ins, (username, filepath, content_name, int(privacy)))
         conn.commit()
         cursor.close()
 
         session["error"]=None
         return redirect("/feed")
 
-
-"""
-@upload.route('/uploadContent', methods=['POST'])
-def upload_file():
-    # check if the post request has the file part
-    if 'file' not in request.files:
-        print('No file part')
-        return redirect(request.url)
-    file = request.files['file']
-    # if user does not select file, browser also
-    # submit a empty part without filename
-    if file.filename == '':
-        print('No selected file')
-        return redirect(request.url)
-    if file and allowed_file(file.filename):
-        username = session["username"]
-        print(request.form["privacy"])
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-        return redirect("/feed")
-        '''return redirect(url_for('uploaded_file',
-                                filename=filename))'''
-"""
 
 @upload.route('/uploads/<filename>')
 def uploaded_file(filename):

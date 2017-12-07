@@ -3,34 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome to PriCoSha</title>
-    <script type="text/javascript" src="{{url_for('static', filename='jquery-3.2.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/jquery-3.2.1.min.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='main.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='jquery.cookie.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/jquery.cookie.js')}}"></script>
+    <link href="{{url_for('static', filename='other/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='signin.css')}}" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 0rem;
+            background-color: #ffffff;
+        }
+    </style>
     
 </head>
 <body>
-    <h2>Hello and welcome to Private Content Share</h2>
-    <p>Please</p><button id="login" >login</button><p> or </p><button id="reg">register</button>
-    
-    <div class="authField">
-        <div id="loginField" hidden="hidden">
-            <h3>User Login</h3>
-            <p>Username</p><input type="text" id="loginName" name="username">
-            <p>Password</p><input type="password" id="loginPass" name="password">
-            <button id="loginGo">Login</button>
-        </div>
-        <div id="regField" hidden="hidden">
-            <h3>New User Registration</h3>
-            <p>Enter your first name</p><input type="text" id="regfname" name="fname">
-            <p>Enter your last name</p><input type="text" id="reglname" name="lname">
-            <p>Set Your Username</p><input type="text" id="regName" name="username">
-            <p>Set A Good Password</p><input type="password" id="regPass" name="password">
-            
-            <button id="regGo">Join</button>
-        </div>
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">Private Content Share</h1>
+        <p>Hello and welcome to Private Content Share, where you can share content with friends, or whatever the project is about lol, someone fill in some text.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button" id="login">Sign In</a>or
+            <a class="btn btn-primary btn-lg" href="#" role="button" id="reg">Sign Up</a></p>
+      </div>
+    </div>
+
+    <div class="container">
         <div class="msgbox" hidden="hidden">
-            <p id="msg"></p>
+            <div class="alert alert-danger" id="msg"></div>
         </div>
+        <div class="form-signin" id="loginField" hidden="hidden">
+            <h2 class="form-signin-heading">Sign in</h2>
+            <input type="text" id="loginName" class="form-control" placeholder="User Name" name="username" autofocus="">
+            <input type="password" id="loginPass" class="form-control" name="password" placeholder="Password">
+            <button class="btn btn-lg btn-primary btn-block" id="loginGo">Sign in</button>
+        </div>
+
+        <div class="form-signin" id="regField" hidden="hidden">
+            <h2 class="form-signin-heading">New User Sign Up</h2>
+            <input type="text" id="regfname" class="form-control" placeholder="First Name" name="fname" autofocus="">
+            <input type="text" id="reglname" class="form-control" placeholder="Last Name" name="lname">
+            <input type="text" id="regName" class="form-control" placeholder="User Name" name="username">
+            <input type="password" id="regPass" class="form-control" name="password" placeholder="Password">
+            <button class="btn btn-lg btn-primary btn-block" id="regGo">Join!</button>
+        </div>
+
+
     </div>
 </body>
 </html>
