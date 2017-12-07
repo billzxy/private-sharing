@@ -40,8 +40,8 @@ def encodeThumbnail(path):
     Create thumbnail if does not exist
     :param path: path of the image that needs to be thumbnailed
     :return: the base64 string of thumbnail
-
     """
+    #TODO: Allow PNG and other formats
     thumbnail = os.path.splitext(path)[0] + ".thumbnail"
 
     try:
@@ -52,7 +52,7 @@ def encodeThumbnail(path):
     except:
         try:
             im = Image.open(path)
-            im.thumbnail((125,125), Image.ANTIALIAS)
+            im.thumbnail((275,275), Image.ANTIALIAS)
             im.save(thumbnail, "JPEG")
             with open(thumbnail, "rb") as thumb_file:
                 th_str = str(base64.b64encode(thumb_file.read()))
@@ -69,7 +69,7 @@ def getPosts():
     offset = int(content['page'])
     show_max = int(content['max'])
     cursor = conn.cursor()
-    query = 'SELECT * FROM content WHERE username=%s'
+    query = 'SELECT * FROM content WHERE username=%s ORDER BY id DESC'
     cursor.execute(query, (username))
     data = cursor.fetchall()
     conn.commit()
@@ -82,4 +82,4 @@ def getPosts():
         response = {"error":None,"data":data}
         return jsonify(response)
     else:
-        return jsonify({"error": "Nothing is here!"})
+        return jsonify({"error": "Nothing to show! Post something!"})

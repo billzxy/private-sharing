@@ -3,34 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <title>Pricosha Feed</title>
-    <script type="text/javascript" src="{{url_for('static', filename='jquery-3.2.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/jquery-3.2.1.min.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='feed.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='jquery.cookie.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/jquery.cookie.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/bootstrap.min.js')}}"></script>
+    <link href="{{url_for('static', filename='other/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='signin.css')}}" rel="stylesheet">
+    <style>
+        body {
+            min-height: 75rem;
+            padding-top: 3rem;
+            background-color: #ffffff;
+        }
+        .alert-primary {
+            color: #004085;
+            background-color: #cce5ff;
+            border-color: #b8daff;
+        }
 
+        .card-columns{
+            padding-left: 2rem;
+            padding-top: 2rem;
+            column-count: 6;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous">
+
+    </script>
 </head>
 <body>
-	<h1>Welcome {{username}}</h1>
-	<a href="/logout">Log out</a>
-	<h2>This is feed page</h2>
 
-    <div class="upload_box">
-        <form action="/uploadContent" method="POST" enctype="multipart/form-data">
-            <p>Select File:</p><input type="file" name="file">
-            <p>Set as private</p><input type="checkbox" name="privacy">
-            <input type="submit"value="Upload">
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">PriCoSha</a>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <!--<li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>-->
+          <li class="nav-item dropdown" >
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{username}}</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="/logout">Sign Out</a>
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-    </div>
+      </div>
+    </nav>
+
+
+
+  <div class="jumbotron">
+      <h2>Share Content</h2>
+      <!-- Button to Open the Modal -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+        Upload
+      </button>
+  <!-- The Modal -->
+      <div class="modal fade" id="uploadModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h4 class="modal-title">Content Upload</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="/uploadContent" method="POST" enctype="multipart/form-data">
+            <div class="modal-body">
+                <div class="upload_box">
+                        Give it a title:<input type="text" id="title" class="form-control" placeholder="Title" name="contname" required="required">
+                        <p></p><input class="btn btn-secondary" type="file" name="file">
+                        <input type="checkbox" name="privacy">Set Private
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="Upload">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+    <h2>Posts</h2>
     <div class="msgbox" hidden="hidden">
-            <p id="msg"></p>
+            <div class="alert alert-primary" id="msg"></div>
     </div>
     <div class="content_feed">
-        <table class="table_feed" id="feed_list">
 
-        </table>
+        <div class="card-columns" id="feed_list">
+
+        </div>
     </div>
 
-    <div>
 
-    </div>
+
 </body>
 </html>

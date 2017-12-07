@@ -33,7 +33,7 @@ $(document).ready(function(){
         if(buttonready){
         getInputs("reg");
         if(checkInputs("reg")){
-            buttonready=false
+            buttonready=false;
             submitInfo("registerAuth");
         }}
     });
@@ -82,7 +82,7 @@ function submitInfo(destination){
 
 function showErrorMsg(msg){
     $(".msgbox").removeAttr("hidden");
-    $("#msg").text(msg);
+    $("#msg").html("<strong>Warning! </strong>"+msg);
 }
 
 function getInputs(section) {
