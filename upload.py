@@ -6,7 +6,6 @@ import os
 upload = Blueprint('upload_blueprint', __name__)
 conn = dbconfig.getConnection()
 
-UPLOAD_FOLDER = '/Users/bill/PycharmProjects/PrivateContentShare/uploads' #windows config
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 

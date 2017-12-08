@@ -1,11 +1,14 @@
 import pymysql
 import os
 
+
+
 def getConfig():
     values = []
     with open( os.path.join(os.path.dirname(__file__), "dbconfig.txt") )as f:
         for line in f:
             values.append(line.rstrip())
+    f.close()
     return values
 
 def getConnection():
@@ -16,3 +19,6 @@ def getConnection():
                        db=values[2], #Change the local server database here
                        charset='utf8mb4',
                        cursorclass=pymysql.cursors.DictCursor)
+def getLocalFolder():
+    values = getConfig()
+    return values[3]
