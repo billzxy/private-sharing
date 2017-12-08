@@ -31,19 +31,6 @@ $(document).ready(function(){
                 }
         }
     });
-    /*
-    $("#userDropdown").click(function(){
-        if(!userDropDown){
-            $("#userDropdown").addClass('nav-item dropdown show').removeClass('nav-item dropdown');
-            $("#userDropDownMenu").attr("aria-expanded",true);
-            userDropDown = true;
-        }else{
-            $("#userDropdown").addClass('nav-item dropdown').removeClass('nav-item dropdown show');
-            $("#userDropDownMenu").attr("aria-expanded",false);
-            userDropDown = false;
-        }
-    });*/
-
 
 });
 
@@ -101,12 +88,4 @@ function showPageBar(){
         var pageN='<li class=""><a href="#" id="'+i+'">'+" "+i+" "+'</a></li>';
         $('#page').append(pageN);
     }
-}
-
-function stripBase64Img(imgString){
-
-}
-
-function getPosts(){
-
 }

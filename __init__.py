@@ -3,13 +3,16 @@ from datetime import timedelta
 
 from auth import auth
 from feed import feed
-from upload import upload, UPLOAD_FOLDER
+from upload import upload
+from group import group
+from dbconfig import getLocalFolder
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = getLocalFolder()
 app.register_blueprint(auth)
 app.register_blueprint(feed)
 app.register_blueprint(upload)
+app.register_blueprint(group)
 
 
 @app.before_request

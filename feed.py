@@ -25,7 +25,6 @@ def getPostCount():
     query = 'SELECT COUNT(*) as count FROM content WHERE username = %s'
     cursor.execute(query, (username))
     data = cursor.fetchone()
-    conn.commit()
     cursor.close()
 
     if(data):
@@ -69,10 +68,9 @@ def getPosts():
     offset = int(content['page'])
     show_max = int(content['max'])
     cursor = conn.cursor()
-    query = 'SELECT * FROM content WHERE username=%s ORDER BY id DESC'
-    cursor.execute(query, (username))
+    query = 'SELECT * FROM content WHERE public=1 ORDER BY id DESC'
+    cursor.execute(query)
     data = cursor.fetchall()
-    conn.commit()
     cursor.close()
     if (data):
         for obj in data:
