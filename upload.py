@@ -38,6 +38,8 @@ def upload_content():
     if file and allowed_file(file.filename):
         username = session["username"]
         content_name = request.form["contname"]
+        sharing = request.form["groupname"]
+        print(sharing)
         privacy = 1 #TODO:change
         filename = trim_filename_length(secure_filename(file.filename))
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)

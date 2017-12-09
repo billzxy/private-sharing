@@ -22,7 +22,7 @@ $(document).ready(function(){
         success: function (response) {
             var data = JSON.parse(response);
                 if(data['error']) {
-                    showErrorMsg(data['error']);//
+                    showErrorMsg("",data['error']);//
 
                 }else{
                     dataCount = data['count'];
@@ -30,6 +30,17 @@ $(document).ready(function(){
                     getData();
                 }
         }
+    });
+    $("#selPrivate").click(function(){
+        getGroupNames();
+    });
+    $("#selPublic").click(function(){
+        setGroupSelection("public");
+    });
+
+    $(".list-group-item").click(function(){
+        alert(this.attr("id"));
+        setGroupSelection(this.attr("id"));
     });
 
 });
@@ -54,7 +65,7 @@ function getData(){
             success: function (result) {
                 var dataDict = JSON.parse(result);
                 if(dataDict["error"]){
-                    showErrorMsg(dataDict["error"]);
+                    showErrorMsg("",dataDict["error"]);
                 }else{
                     var feedList = $("#feed_list");
                     feedList.empty();
@@ -77,9 +88,49 @@ function getData(){
         });
 }
 
-function showErrorMsg(msg){
-    $(".msgbox").removeAttr("hidden");
-    $("#msg").html("<strong>Oops! </strong>"+msg);
+function getGroupNames(){
+    var requestData = {
+        "username":username
+    };
+    $.ajax(
+        {
+            url:"getMyGroups",
+            type:"POST",
+            data:JSON.stringify(requestData),
+            contentType:"application/json",
+            dataType:"text",
+            timeout:60000,
+            error: function (data) {alert("Communication failed!"+data);},
+            success: function (result) {
+                var dataDict = JSON.parse(result);
+                if(dataDict["error"]){
+                    showErrorMsg("_group",dataDict["error"]);
+                }else{
+                    var groupList = $("#groupList");
+                    groupList.empty();
+                    var dataList = dataDict["data"];
+                    for(var id=0; id<dataList.length;id++){
+                        var content = "\n" +
+                            "<a href=\"#\" data-dismiss=\"modal\" class=\"list-group-item list-group-item-action\" id=\""+ dataList[id]["group_name"]+"_"+dataList[id]["username"]+"\">"+dataList[id]["group_name"]
+                            +" Owner: "+dataList[id]["username"]
+                            +"</a>";
+                        groupList.append(content);
+                    }
+
+                }
+            }
+        });
+}
+function setGroupSelection(group){
+    var groupSelect = $("#groupSelect");
+    var shareToParagraph = $("#shareTo");
+    groupSelect.val(group);
+    shareToParagraph.text(group);
+}
+
+function showErrorMsg(section,msg){
+    $(".msgbox"+section).removeAttr("hidden");
+    $("#msg"+section).html("<strong>Oops! </strong>"+msg);
 }
 
 function showPageBar(){

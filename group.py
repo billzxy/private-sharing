@@ -34,7 +34,7 @@ def getMyGroups():
     username = content['username']
     cursor = conn.cursor()
     query = ("SELECT * FROM friendgroup"+
-            " INNER JOIN member ON friendgroup.group_name=member.group_name"+
+            " INNER JOIN member ON friendgroup.username=member.username_creator"+
             " WHERE member.username=%s")
     cursor.execute(query, (username))
     data = cursor.fetchall()
