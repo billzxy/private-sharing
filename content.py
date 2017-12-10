@@ -6,7 +6,7 @@ conn = dbconfig.getConnection()
 
 
 @content.route("/content/<id>")
-def redirectContent(id):
+def redirectContent(iD):
     try:
         username = session['username']
     except:
@@ -14,7 +14,7 @@ def redirectContent(id):
 
     cursor = conn.cursor()
     query = 'SELECT * FROM content WHERE id=%s'
-    cursor.execute(query,(int(id)))
+    cursor.execute(query,(int(iD)))
     data = cursor.fetchone()
     cursor.close()
     owner = data['username']

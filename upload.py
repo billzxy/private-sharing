@@ -43,31 +43,37 @@ def upload_content():
         groupname = params[0]
 
         filename = trim_filename_length(secure_filename(file.filename))
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
+        iD=int()
 
         if(groupname=="public"):
             privacy = 1
             cursor = conn.cursor()
             ins = 'INSERT INTO content (username, file_path, content_name, public)VALUES(%s, %s, %s,%s)'
-            cursor.execute(ins, (username, filepath, content_name, int(privacy)))
-            conn.commit()
+            sel = "SELECT LAST_INSERT_ID() AS id"
+            cursor.execute(ins, (username, filename, content_name, int(privacy)))
+            cursor.execute(sel)
+            result = cursor.fetchone()
+            iD = result['id']
+
         else:
             privacy=0
             owner = params[1]
             cursor = conn.cursor()
             ins = 'INSERT INTO content (username, file_path, content_name, public) VALUES(%s, %s, %s,%s)'
             sel = "SELECT LAST_INSERT_ID() AS id"
-            cursor.execute(ins, (username, filepath, content_name, int(privacy)))
+            cursor.execute(ins, (username, filename, content_name, int(privacy)))
             cursor.execute(sel)
             result = cursor.fetchone()
-            id = result['id']
+            iD = result['id']
             ins = 'INSERT INTO share VALUES(%s, %s, %s)'
-            cursor.execute(ins, (id, groupname, owner))
-            conn.commit()
+            cursor.execute(ins, (iD, groupname, owner))
 
-        cursor.close()
-
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], str(iD)+"-"+filename)
+        upd = "UPDATE content SET file_path=%s WHERE id=%s"
+        cursor.execute(upd, (filepath, int(iD)))
+        file.save(filepath)
+        conn.commit()
+        conn.close()
         session["error"]=None
         return redirect("/feed")
 

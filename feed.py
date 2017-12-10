@@ -45,18 +45,20 @@ def encodeThumbnail(path):
 
     try:
         with open(thumbnail, "rb") as thumb_file:
+            print("opened thumbnail %s" %thumbnail)
             th_str = str(base64.b64encode(thumb_file.read()))
-            thumb_file.close()
-            return th_str
+            #thumb_file.close()
+        return th_str
     except:
+        print("Thumbnail dne, creating new")
         try:
             im = Image.open(path)
             im.thumbnail((275,275), Image.ANTIALIAS)
             im.save(thumbnail, "JPEG")
             with open(thumbnail, "rb") as thumb_file:
                 th_str = str(base64.b64encode(thumb_file.read()))
-                thumb_file.close()
-                return th_str
+                #thumb_file.close()
+            return th_str
         except IOError:
             print("cannot create thumbnail for '%s'" % path)
 
@@ -72,6 +74,7 @@ def getPosts():
     cursor.execute(query)
     data = cursor.fetchall()
     cursor.close()
+    print(data)
     if (data):
         for obj in data:
             img_path = obj['file_path']
