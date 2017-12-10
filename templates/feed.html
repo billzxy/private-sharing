@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Pricosha Feed</title>
     <script type="text/javascript" src="{{url_for('static', filename='other/jquery-3.2.1.min.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='feed.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='other/jquery.cookie.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='other/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='feed.js')}}"></script>
     <link href="{{url_for('static', filename='other/bootstrap.min.css')}}" rel="stylesheet">
     <style>
         body {
@@ -88,7 +88,7 @@
                         <div class="nav-item dropdown">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sharing Option</a>
+                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sharing Option</a>
                                     <p id="shareTo"></p>
                                     <div class="dropdown-menu" aria-labelledby="dropdown01">
                                         <a class="dropdown-item" id="selPublic" href="#">Public</a>
@@ -112,26 +112,26 @@
         </div>
       </div>
       <div class="modal fade" id="groupModal">
-                                            <div class="modal-dialog">
-                                              <div class="modal-content">
+        <div class="modal-dialog">
+          <div class="modal-content">
 
-                                                 <div class="modal-header">
-                                                      <h4 class="modal-title">Select a group:</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                 </div>
+             <div class="modal-header">
+                  <h4 class="modal-title">Select a group:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+             </div>
 
-                                                  <div class="modal-body">
-                                                      <ul class="list-group" id="groupList">
-                                                      </ul>
-                                                  </div>
+              <div class="modal-body">
+                  <ul class="list-group" id="groupList">
+                  </ul>
+              </div>
 
-                                                  <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                  </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              </div>
 
 
-                                              </div>
-                                            </div>
+          </div>
+        </div>
       </div>
   </div>
 

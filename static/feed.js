@@ -108,14 +108,15 @@ function getGroupNames(){
                     groupList.empty();
                     var dataList = dataDict["data"];
                     for(var id=0; id<dataList.length;id++){
-                        var content = "\n" +
-                            "<li data-dismiss=\"modal\" class=\"list-group-item list-group-item-action\" id=\""+ dataList[id]["group_name"]+"^^"+dataList[id]["username"]+"\">"+dataList[id]["group_name"]
+                        var content =
+                            "<li data-dismiss=\"modal\" class=\"list-group-item list-group-item-action\" " +
+                            "id=\""+ dataList[id]["group_name"]+"^^"+dataList[id]["username"]+"\">"+dataList[id]["group_name"]
                             +" Owner: "+dataList[id]["username"]
                             +"</li>";
                         groupList.append(content);
-                        readyGroupSelector();
-                    }
 
+                    }
+                    readyGroupSelector();
                 }
             }
         });

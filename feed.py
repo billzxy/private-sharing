@@ -4,7 +4,6 @@ import base64,os
 import dbconfig
 
 feed = Blueprint('feed_blueprint', __name__)
-conn = dbconfig.getConnection()
 
 
 @feed.route('/feed')
@@ -21,11 +20,13 @@ def getPostCount():
     content = request.get_json(silent=True)
     username = content['username']
 
+    conn = dbconfig.getConnection()
     cursor = conn.cursor()
     query = 'SELECT COUNT(*) as count FROM content WHERE username = %s'
     cursor.execute(query, (username))
     data = cursor.fetchone()
     cursor.close()
+    conn.close()
 
     if(data):
         return jsonify({"count":data["count"]})
@@ -46,8 +47,8 @@ def encodeThumbnail(path):
     try:
         with open(thumbnail, "rb") as thumb_file:
             th_str = str(base64.b64encode(thumb_file.read()))
-            thumb_file.close()
-            return th_str
+            #thumb_file.close()
+        return th_str
     except:
         try:
             im = Image.open(path)
@@ -55,8 +56,8 @@ def encodeThumbnail(path):
             im.save(thumbnail, "JPEG")
             with open(thumbnail, "rb") as thumb_file:
                 th_str = str(base64.b64encode(thumb_file.read()))
-                thumb_file.close()
-                return th_str
+                #thumb_file.close()
+            return th_str
         except IOError:
             print("cannot create thumbnail for '%s'" % path)
 
@@ -67,11 +68,14 @@ def getPosts():
     username = content['username']
     offset = int(content['page'])
     show_max = int(content['max'])
+
+    conn = dbconfig.getConnection()
     cursor = conn.cursor()
     query = 'SELECT * FROM content WHERE public=1 ORDER BY id DESC'
     cursor.execute(query)
     data = cursor.fetchall()
     cursor.close()
+    conn.close()
     if (data):
         for obj in data:
             img_path = obj['file_path']
