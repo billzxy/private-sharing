@@ -13,7 +13,16 @@
             padding-top: 5rem;
              padding-left: 2rem;
         }
+        .alert-primary {
+            color: #004085;
+            background-color: #cce5ff;
+            border-color: #b8daff;
+        }
     </style>
+    <script type="application/javascript">
+        var cID = "{{ cid }}";
+        var tagList = [];
+    </script>
 </head>
 <body>
 
@@ -56,19 +65,22 @@
     <h4>Leave a comment:</h4>
     <div class="submit-comment-area" >
         <div class="comment-box">
-            <textarea></textarea>
+            <textarea id="comment-text" maxlength="200"></textarea>
         </div>
         <div class="tag-area">
             <button class="btn btn-secondary">+ TAG</button>
             <p></p>
         </div>
-        <button class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary" id="submitButton">Submit</button>
     </div>
 
     <div class="comment-area">
         <h4>Comments: </h4>
-        <div class="msgbox" hidden="hidden">
-            <div class="alert alert-primary" id="msg"></div>
+        <div class="msgbox_comment" hidden="hidden">
+            <div class="alert alert-primary" id="msg_comment"></div>
+        </div>
+        <div id="comment-list">
+
         </div>
     </div>
 

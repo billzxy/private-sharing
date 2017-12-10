@@ -167,13 +167,12 @@ def addMember():
         cursor.execute(query, (username,groupname,creator))
         cursor.close()
         conn.commit()
-        conn.close()
         response = {"error": None, "msg":"Successfully added %s to group!"%username}
         return jsonify(response)
 
     except MySQLError:
         cursor.close()
-        conn.close()
         return jsonify({"error": "Adding member failed, please try again!"})
 
-
+    finally:
+        conn.close()
