@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, url_for, redirect,jsonify, Blueprint, make_response
 import dbconfig
 from feed import encodeThumbnail
+from pymysql import MySQLError
 
 group = Blueprint('group_blueprint', __name__)
 
@@ -92,7 +93,7 @@ def redirectGroupPage(group_name):
     params = group_name.split("6")
     groupname = params[0]
     owner = params[1]
-    return render_template('groupdetail.html', group_name=groupname, owner=owner)
+    return render_template('groupdetail.html', group_name=groupname, owner=owner,username=username)
 
 
 @group.route("/group/getGroupContents",methods=["POST"])
@@ -124,5 +125,55 @@ def getGroupContents():
     else:
         return jsonify({"error": "No posts exist! Post something!"})
 
+
+@group.route("/group/getNonMemberPeople",methods=["POST"])
+def getNonMembers():
+    content = request.get_json(silent=True)
+    groupname = content["group_name"]
+    owner = content["owner"]
+
+    conn = dbconfig.getConnection()
+    cursor = conn.cursor()
+    query = (
+    "select username,first_name,last_name "+
+    "from Person "+
+    "where username not in "+
+    "(select m.username "+
+    "from Member m inner join FriendGroup f on m.username_creator = f.username AND m.group_name = f.group_name "+
+    "AND f.group_name =%s AND f.username = %s)")
+
+    cursor.execute(query, (groupname, owner))
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    if(data):
+        response = {"error": None, "data": data}
+        return jsonify(response)
+    else:
+        return jsonify({"error": "No one exists or everyone has found where they belong to!"})
+
+
+@group.route("/group/addPersonToGroup",methods=["POST"])
+def addMember():
+    content = request.get_json(silent=True)
+    username = content["addee"].lstrip("user_")
+    creator = content["adder"]
+    groupname = content["group_name"]
+
+    conn = dbconfig.getConnection()
+    cursor = conn.cursor()
+    query = "INSERT INTO member (username, group_name, username_creator) VALUES(%s, %s, %s)"
+    try:
+        cursor.execute(query, (username,groupname,creator))
+        cursor.close()
+        conn.commit()
+        conn.close()
+        response = {"error": None, "msg":"Successfully added %s to group!"%username}
+        return jsonify(response)
+
+    except MySQLError:
+        cursor.close()
+        conn.close()
+        return jsonify({"error": "Adding member failed, please try again!"})
 
 

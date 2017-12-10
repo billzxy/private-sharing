@@ -21,7 +21,7 @@ def redirectContent(iD):
     time = data['timest']
     filepath = data["file_path"]
     contentname = data["content_name"]
-    return render_template('contentdetail.html', owner=owner,timest=time,path=lstripDirPath(filepath),contentname=contentname)
+    return render_template('contentdetail.html', owner=owner,timest=time,path=lstripDirPath(filepath),contentname=contentname,username=username)
 
 
 def lstripDirPath(path):
