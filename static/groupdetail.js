@@ -34,7 +34,7 @@ function getGroupPosts(){
                                 "      <h4 class=\"card-title\">"+dataList[id]['caption']+"</h4>\n" +
                                 "      <p class=\"card-text\">Uploaded By: "+dataList[id]['owner']+"</p>\n" +
                                 "      <p class=\"card-text\">Date Uploaded: "+dataList[id]['timestamp']+"</p>\n" +
-                                "      <a href=\"#\" class=\"btn btn-primary\">See Details</a>\n" +
+                                "      <a href=\"/content/"+dataList[id]['id']+"\" class=\"btn btn-primary\">See Details</a>\n" +
                                 "    </div>\n" +
                                 "  </div></div>";
                             feedList.append(content);

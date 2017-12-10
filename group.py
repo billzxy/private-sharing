@@ -77,12 +77,13 @@ def createGroup():
 @group.route("/group/<group_name>")
 def redirectGroupPage(group_name):
     try:
-        params = group_name.split("6")
-        groupname = params[0]
-        owner = params[1]
-        return render_template('groupdetail.html',group_name=groupname,owner=owner)
+        username = session['username']
     except:
         return redirect('/')
+    params = group_name.split("6")
+    groupname = params[0]
+    owner = params[1]
+    return render_template('groupdetail.html', group_name=groupname, owner=owner)
 
 
 @group.route("/group/getGroupContents",methods=["POST"])
@@ -92,7 +93,7 @@ def getGroupContents():
     groupname = content["group_name"]
     owner = content["owner"]
     cursor = conn.cursor()
-    query = ("Select c.content_name as caption, c.username as owner, c.timest as timestamp, c.file_path as filePath "+
+    query = ("Select c.id as id, c.content_name as caption, c.username as owner, c.timest as timestamp, c.file_path as filePath "+
         "From Content c inner join Share s on c.id = s.id "+
         "inner join FriendGroup f on s.group_name = f.group_name AND s.username = f.username "+
         "inner join Member m on f.group_name = m.group_name AND f.username = m.username_creator "+

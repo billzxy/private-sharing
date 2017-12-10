@@ -75,7 +75,7 @@ function getData(){
                             "      <h4 class=\"card-title\">"+dataList[id]['content_name']+"</h4>\n" +
                             "      <p class=\"card-text\">Uploaded By: "+dataList[id]['username']+"</p>\n" +
                             "      <p class=\"card-text\">Date Uploaded: "+dataList[id]['timest']+"</p>\n" +
-                            "      <a href=\"#\" class=\"btn btn-primary\">See Details</a>\n" +
+                            "      <a href=\"/content/"+dataList[id]['id']+"\" class=\"btn btn-primary\">See Details</a>\n" +
                             "    </div>\n" +
                             "  </div></div>";
                         feedList.append(content);

@@ -5,6 +5,7 @@ from auth import auth
 from feed import feed
 from upload import upload
 from group import group
+from content import content
 from dbconfig import getLocalFolder
 
 app = Flask(__name__)
@@ -13,6 +14,7 @@ app.register_blueprint(auth)
 app.register_blueprint(feed)
 app.register_blueprint(upload)
 app.register_blueprint(group)
+app.register_blueprint(content)
 
 
 @app.before_request

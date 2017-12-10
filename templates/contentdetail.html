@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Content</title>
+    <script type="text/javascript" src="{{url_for('static', filename='other/jquery-3.2.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/jquery.cookie.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='content.js')}}"></script>
+    <link href="{{url_for('static', filename='other/bootstrap.min.css')}}" rel="stylesheet">
+    <style>
+         body {
+            padding-top: 5rem;
+             padding-left: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                  aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="/feed">PriCoSha</a>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/groups">Groups <span class="sr-only">(current)</span></a>
+              </li>
+
+            </ul>
+            <div class="nav-item dropdown">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{username}}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <a class="dropdown-item" href="/logout">Sign Out</a>
+                        </div>
+                    </li>
+            </ul>
+            </div>
+          </div>
+    </nav>
+
+    <div class="content-area">
+        <div class="picture-area" id="picture_field">
+            <img id="picture" src="/uploads/{{ path }}" style="width:800px">
+        </div>
+        <div id="content_detail">
+            <h3>{{ contentname }}</h3>
+            <p>Uploader: {{ owner }}</p>
+            <p>Time uploaded: {{ timest }}</p>
+        </div>
+    </div>
+    <h4>Leave a comment:</h4>
+    <div class="submit-comment-area" >
+        <div class="comment-box">
+            <textarea></textarea>
+        </div>
+        <div class="tag-area">
+            <button class="btn btn-secondary">+ TAG</button>
+            <p></p>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+    </div>
+
+    <div class="comment-area">
+        <h4>Comments: </h4>
+        <div class="msgbox" hidden="hidden">
+            <div class="alert alert-primary" id="msg"></div>
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
