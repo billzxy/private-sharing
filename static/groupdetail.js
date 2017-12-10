@@ -91,6 +91,7 @@ function getListOfPeople(){
 }
 
 function showErrorMsg(section,msg){
+    $('#msg'+section).removeClass().addClass('alert alert-primary');
     $(".msgbox"+section).removeAttr("hidden");
     $("#msg"+section).html("<strong>Oops! </strong>"+msg);
 }
@@ -100,8 +101,8 @@ function isUserTheGroupOwner() {
 }
 
 function readyPeopleSelector(){
-    groupListSelector=$(".list-group-item");
-    groupListSelector.click(function(){
+    peopleListSelector=$(".list-group-item");
+    peopleListSelector.click(function(){
         addPersonToGroup($(this).attr("id"));
 });
 }
@@ -126,6 +127,7 @@ function addPersonToGroup(uid){
             if(dataDict["error"]){
                 showErrorMsg("",dataDict["error"]);
             }else{
+                $('#msg').removeClass().addClass('alert alert-success');
                 $(".msgbox").removeAttr("hidden");
                 $("#msg").html("<strong>Success! </strong>"+dataDict["msg"]);
             }
@@ -157,4 +159,4 @@ var modalWindow = "<div class=\"modal fade\" id=\"addPeopleModal\">\n" +
     "\n" +
     "              </div>\n" +
     "            </div>\n" +
-    "      </div>"
+    "      </div>";

@@ -5,8 +5,9 @@ from auth import auth
 from feed import feed
 from upload import upload
 from group import group
-from content import content
+from contents import contents
 from dbconfig import getLocalFolder
+from notification import notification
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = getLocalFolder()
@@ -14,7 +15,8 @@ app.register_blueprint(auth)
 app.register_blueprint(feed)
 app.register_blueprint(upload)
 app.register_blueprint(group)
-app.register_blueprint(content)
+app.register_blueprint(contents)
+app.register_blueprint(notification)
 
 
 @app.before_request

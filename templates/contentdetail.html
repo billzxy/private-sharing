@@ -21,7 +21,7 @@
     </style>
     <script type="application/javascript">
         var cID = "{{ cid }}";
-        var tagList = [];
+        var isPublicContent = "{{public}}";
     </script>
 </head>
 <body>
@@ -60,6 +60,43 @@
             <h3>{{ contentname }}</h3>
             <p>Uploader: {{ owner }}</p>
             <p>Time uploaded: {{ timest }}</p>
+            <div class="tag-area">
+                <div class="msgbox_tag_after" hidden="hidden">
+                    <div class="alert alert-success" id="msg_tag_after"></div>
+                </div>
+                <button class="btn btn-secondary" id="tagButton" data-toggle="modal" data-target="#tagPeopleModal">+ Tag Someone</button>
+
+                <div class="modal fade show" id="tagPeopleModal" >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+
+                         <div class="modal-header">
+                              <h4 class="modal-title">Tag people:</h4>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                         </div>
+
+                          <div class="modal-body">
+                              <div class="msgbox_tag" hidden="hidden">
+                                  <div class="alert alert-primary" id="msg_tag">
+                                  </div>
+                              </div>
+                              <ul class="list-group" id="peopleList">
+
+                              </ul>
+                          </div>
+
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+
+
+                <p>Tagged users:</p>
+                <p id="tagList"></p>
+            </div>
+
         </div>
     </div>
     <h4>Leave a comment:</h4>
@@ -67,10 +104,7 @@
         <div class="comment-box">
             <textarea id="comment-text" maxlength="200"></textarea>
         </div>
-        <div class="tag-area">
-            <button class="btn btn-secondary">+ TAG</button>
-            <p></p>
-        </div>
+
         <button class="btn btn-primary" id="submitButton">Submit</button>
     </div>
 
