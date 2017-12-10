@@ -27,7 +27,6 @@ $(document).ready(function(){
 
                 }else{
                     dataCount = data['count'];
-                    alert(dataCount);
                     //showPageBar();
                     getData();
                 }

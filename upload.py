@@ -4,7 +4,7 @@ import dbconfig
 import os
 
 upload = Blueprint('upload_blueprint', __name__)
-conn = dbconfig.getConnection()
+
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
@@ -26,13 +26,11 @@ def trim_filename_length(filename):
 def upload_content():
     if 'file' not in request.files:
         error = "No file part"
-        print(error)
         session["error"] = error
         return redirect("/feed")
     file = request.files['file']
     if file.filename == '':
         error = "No file selected"
-        print(error)
         session["error"] = error
         return redirect("/feed")
     if file and allowed_file(file.filename):
@@ -44,7 +42,7 @@ def upload_content():
 
         filename = trim_filename_length(secure_filename(file.filename))
         iD=int()
-
+        conn = dbconfig.getConnection()
         if(groupname=="public"):
             privacy = 1
             cursor = conn.cursor()

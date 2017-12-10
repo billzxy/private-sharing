@@ -2,21 +2,21 @@ from flask import render_template, request, session, url_for, redirect,jsonify, 
 import dbconfig
 
 content = Blueprint('content_blueprint', __name__)
-conn = dbconfig.getConnection()
 
 
-@content.route("/content/<id>")
+@content.route("/content/<iD>")
 def redirectContent(iD):
     try:
         username = session['username']
     except:
         return redirect('/')
-
+    conn = dbconfig.getConnection()
     cursor = conn.cursor()
     query = 'SELECT * FROM content WHERE id=%s'
     cursor.execute(query,(int(iD)))
     data = cursor.fetchone()
     cursor.close()
+    conn.close()
     owner = data['username']
     time = data['timest']
     filepath = data["file_path"]
