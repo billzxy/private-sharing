@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, url_for, redirect,jsonify, Blueprint, make_response
+from flask import Flask, render_template, request, session, url_for, redirect,jsonify, Blueprint
 import dbconfig
 from feed import encodeThumbnail
 from pymysql import MySQLError
