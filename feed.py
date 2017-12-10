@@ -81,3 +81,4 @@ def getPosts():
         return jsonify(response)
     else:
         return jsonify({"error": "Nothing to show! Post something!"})
+

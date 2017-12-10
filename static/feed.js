@@ -7,6 +7,7 @@ var pageCount;
 var isPageBarReady=false;
 var maxSearchResult=10;
 var username="";
+var groupListSelector;
 
 
 $(document).ready(function(){
@@ -38,12 +39,9 @@ $(document).ready(function(){
         setGroupSelection("public");
     });
 
-    $(".list-group-item").click(function(){
-        alert(this.attr("id"));
-        setGroupSelection(this.attr("id"));
-    });
 
 });
+
 
 
 function getData(){
@@ -77,7 +75,7 @@ function getData(){
                             "      <h4 class=\"card-title\">"+dataList[id]['content_name']+"</h4>\n" +
                             "      <p class=\"card-text\">Uploaded By: "+dataList[id]['username']+"</p>\n" +
                             "      <p class=\"card-text\">Date Uploaded: "+dataList[id]['timest']+"</p>\n" +
-                            "      <a href=\"#\" class=\"btn btn-primary\">See Profile</a>\n" +
+                            "      <a href=\"#\" class=\"btn btn-primary\">See Details</a>\n" +
                             "    </div>\n" +
                             "  </div></div>";
                         feedList.append(content);
@@ -111,16 +109,25 @@ function getGroupNames(){
                     var dataList = dataDict["data"];
                     for(var id=0; id<dataList.length;id++){
                         var content = "\n" +
-                            "<a href=\"#\" data-dismiss=\"modal\" class=\"list-group-item list-group-item-action\" id=\""+ dataList[id]["group_name"]+"_"+dataList[id]["username"]+"\">"+dataList[id]["group_name"]
+                            "<li data-dismiss=\"modal\" class=\"list-group-item list-group-item-action\" id=\""+ dataList[id]["group_name"]+"^^"+dataList[id]["username"]+"\">"+dataList[id]["group_name"]
                             +" Owner: "+dataList[id]["username"]
-                            +"</a>";
+                            +"</li>";
                         groupList.append(content);
+                        readyGroupSelector();
                     }
 
                 }
             }
         });
 }
+
+function readyGroupSelector(){
+    groupListSelector=$(".list-group-item");
+    groupListSelector.click(function(){
+        setGroupSelection($(this).attr("id"));
+});
+}
+
 function setGroupSelection(group){
     var groupSelect = $("#groupSelect");
     var shareToParagraph = $("#shareTo");

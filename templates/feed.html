@@ -25,9 +25,6 @@
             padding-top: 2rem;
             column-count: 6;
         }
-        .dropdown-menu{
-
-        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
             integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
@@ -65,63 +62,6 @@
     </nav>
 
   <div class="jumbotron">
-<!--
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#stack1">
-        Upload
-      </button>
-
-      <div id="stack1" class="modal fade" style="display: none;">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Stack One</h4>
-          </div>
-            <form action="/uploadContent" method="POST" enctype="multipart/form-data">
-              <div class="modal-body">
-                  <div class="upload_box">
-                        <div class="msgbox_group" hidden="hidden">
-                            <div class="alert alert-danger" id="msg_group"></div>
-                        </div>
-                        Give it a title:<input type="text" id="title" class="form-control" placeholder="Title" name="contname" required="required">
-                        <p></p><input class="btn btn-secondary" type="file" name="file">
-                        <input type="text" id="groupSelect" name="groupname" value="public" hidden="hidden">
-                        <div class="nav-item dropdown">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sharing Option</a>
-                                    <p id="shareTo"></p>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                                        <a class="dropdown-item" id="selPublic" href="#">Public</a>
-                                        <a class="dropdown-item" id="selPrivate" href="#stack2" data-toggle="modal"
-                                                data-target="#groupModal">Share to group...</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                </div>
-              </div>
-            </form>
-          <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-            <button type="button" class="btn btn-primary">Ok</button>
-          </div>
-        </div>
-
-        <div id="stack2" class="modal fade" tabindex="-1" style="display: none;">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Stack Two</h4>
-          </div>
-          <div class="modal-body">
-            <p>One fine body…</p>
-            <p>One fine body…</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-            <button type="button" class="btn btn-primary">Ok</button>
-          </div>
-        </div>
-  </div>
--->
 
       <h2>Share Content</h2>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
@@ -181,8 +121,8 @@
                                                  </div>
 
                                                   <div class="modal-body">
-                                                      <div class="list-group" id="groupList">
-                                                      </div>
+                                                      <ul class="list-group" id="groupList">
+                                                      </ul>
                                                   </div>
 
                                                   <div class="modal-footer">
@@ -195,7 +135,7 @@
       </div>
   </div>
 
-    <h2>Posts</h2>
+    <h2>Public Posts</h2>
     <div class="msgbox" hidden="hidden">
             <div class="alert alert-primary" id="msg"></div>
     </div>

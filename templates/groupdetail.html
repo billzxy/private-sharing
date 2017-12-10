@@ -2,9 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Group</title>
+    <title>{{ group_name }}</title>
+    <script type="text/javascript" src="{{url_for('static', filename='other/jquery-3.2.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/jquery.cookie.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='other/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='groupdetail.js')}}"></script>
+    <link href="{{url_for('static', filename='other/bootstrap.min.css')}}" rel="stylesheet">
+    <script type="application/javascript">
+        var groupName ="{{ group_name }}";
+        var owner = "{{ owner }}";
+    </script>
+    <style type="text/css">
+        body {
+            min-height: 75rem;
+            padding-top: 3rem;
+            background-color: #ffffff;
+        }
+        .alert-primary {
+            color: #004085;
+            background-color: #cce5ff;
+            border-color: #b8daff;
+        }
+
+        .card-columns{
+            padding-left: 2rem;
+            padding-top: 2rem;
+            column-count: 6;
+        }
+    </style>
+
 </head>
 <body>
 
+<!-- navbar -->
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                  aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="/feed">PriCoSha</a>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/groups">Groups <span class="sr-only">(current)</span></a>
+              </li>
+
+            </ul>
+            <div class="nav-item dropdown">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{username}}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <a class="dropdown-item" href="/logout">Sign Out</a>
+                        </div>
+                    </li>
+            </ul>
+            </div>
+          </div>
+    </nav>
+
+    <h2>Posts</h2>
+        <div class="msgbox" hidden="hidden">
+                <div class="alert alert-primary" id="msg"></div>
+        </div>
+        <div class="content">
+
+            <div class="card-columns" id="content_list">
+
+            </div>
+        </div>
 </body>
 </html>

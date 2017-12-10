@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, session, url_for, redirect,jsonify, Blueprint
+from flask import Flask, render_template, request, session, url_for, redirect,jsonify, Blueprint, make_response
 import dbconfig
+from feed import encodeThumbnail
 
 group = Blueprint('group_blueprint', __name__)
 conn = dbconfig.getConnection()
@@ -45,6 +46,7 @@ def getMyGroups():
     else:
         return jsonify({"error": "You haven't join any group yet!"})
 
+
 @group.route("/createGroup",methods=["POST"])
 def createGroup():
     content = request.get_json(silent=True)
@@ -70,4 +72,44 @@ def createGroup():
         conn.commit()
         cursor.close()
         return jsonify({"error":None})
+
+
+@group.route("/group/<group_name>")
+def redirectGroupPage(group_name):
+    try:
+        params = group_name.split("6")
+        groupname = params[0]
+        owner = params[1]
+        return render_template('groupdetail.html',group_name=groupname,owner=owner)
+    except:
+        return redirect('/')
+
+
+@group.route("/group/getGroupContents",methods=["POST"])
+def getGroupContents():
+    content = request.get_json(silent=True)
+    username = session['username']
+    groupname = content["group_name"]
+    owner = content["owner"]
+    cursor = conn.cursor()
+    query = ("Select c.content_name as caption, c.username as owner, c.timest as timestamp, c.file_path as filePath "+
+        "From Content c inner join Share s on c.id = s.id "+
+        "inner join FriendGroup f on s.group_name = f.group_name AND s.username = f.username "+
+        "inner join Member m on f.group_name = m.group_name AND f.username = m.username_creator "+
+        "Where m.username = %s AND m.group_name = %s AND m.username_creator = %s")
+
+    cursor.execute(query, (username, groupname, owner))
+    data = cursor.fetchall()
+    cursor.close()
+    if(data):
+        for obj in data:
+            img_path = obj['filePath']
+            obj['img'] = encodeThumbnail(img_path).lstrip("b'").rstrip("'")
+        response = {"error": None, "data": data}
+        return jsonify(response)
+
+    else:
+        return jsonify({"error": "No posts exist! Post something!"})
+
+
 

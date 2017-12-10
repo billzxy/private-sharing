@@ -39,16 +39,33 @@ def upload_content():
         username = session["username"]
         content_name = request.form["contname"]
         sharing = request.form["groupname"]
-        print(sharing)
-        privacy = 1 #TODO:change
+        params = sharing.split("^^")
+        groupname = params[0]
+
         filename = trim_filename_length(secure_filename(file.filename))
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
-        cursor = conn.cursor()
-        ins = 'INSERT INTO content (username, file_path, content_name, public)VALUES(%s, %s, %s,%s)'
-        cursor.execute(ins, (username, filepath, content_name, int(privacy)))
-        conn.commit()
+        if(groupname=="public"):
+            privacy = 1
+            cursor = conn.cursor()
+            ins = 'INSERT INTO content (username, file_path, content_name, public)VALUES(%s, %s, %s,%s)'
+            cursor.execute(ins, (username, filepath, content_name, int(privacy)))
+            conn.commit()
+        else:
+            privacy=0
+            owner = params[1]
+            cursor = conn.cursor()
+            ins = 'INSERT INTO content (username, file_path, content_name, public) VALUES(%s, %s, %s,%s)'
+            sel = "SELECT LAST_INSERT_ID() AS id"
+            cursor.execute(ins, (username, filepath, content_name, int(privacy)))
+            cursor.execute(sel)
+            result = cursor.fetchone()
+            id = result['id']
+            ins = 'INSERT INTO share VALUES(%s, %s, %s)'
+            cursor.execute(ins, (id, groupname, owner))
+            conn.commit()
+
         cursor.close()
 
         session["error"]=None
