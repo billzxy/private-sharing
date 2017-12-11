@@ -77,7 +77,7 @@ def getTags():
     cid = content["cid"]
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = ("SELECT person.first_name AS fname, person.last_name AS lname FROM person "+
+    query = ("SELECT DISTINCT person.first_name AS fname, person.last_name AS lname FROM person "+
             "INNER JOIN tag ON person.username=tag.username_taggee "+
             "WHERE tag.id=%s AND tag.status=1")
 
@@ -155,6 +155,49 @@ def tagUser():
     finally:
         conn.close()
 
+
+@contents.route("/content/likeContent",methods=["POST"])
+def likeContent():
+    content = request.get_json(silent=True)
+    username = content["username"]
+    cid = content["cid"]
+
+    conn = dbconfig.getConnection()
+    cursor = conn.cursor()
+    query="INSERT INTO like_content VALUES(%s,%s)"
+
+    try:
+        cursor.execute(query, (int(cid),username))
+        cursor.close()
+        conn.commit()
+        response = {"error": None, "msg": "Glad you like it!"}
+        return jsonify(response)
+
+    except MySQLError:
+        cursor.close()
+        return jsonify({"error": "You have already liked this content!"})
+
+    finally:
+        conn.close()
+
+
+@contents.route("/content/getLikeCount",methods=["POST"])
+def getLikeCount():
+    content = request.get_json(silent=True)
+    cid = content['cid']
+
+    conn = dbconfig.getConnection()
+    cursor = conn.cursor()
+    query = 'SELECT COUNT(*) as count FROM like_content WHERE id=%s;'
+    cursor.execute(query, (int(cid)))
+    data = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if (data):
+        return jsonify({"count": data["count"]})
+    else:
+        return jsonify({"error": True})
 
 def lstripDirPath(path):
     return path.lstrip(current_app.config['UPLOAD_FOLDER']+"\\")

@@ -98,7 +98,6 @@ function getAllGroups(){
                             "      <h4 class=\"card-title\">"+dataList[id]['group_name']+"</h4>\n" +
                             "      <p class=\"card-text\">Owner: "+dataList[id]['username']+"</p>\n" +
                             "      <p class=\"card-text\">Description: "+dataList[id]['description']+"</p>\n" +
-                            "      <a href=\"#\" class=\"btn btn-primary\">Apply</a>\n" +
                             "    </div>\n" +
                             "  </div></div>";
                         agroupList.append(content);

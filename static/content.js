@@ -3,6 +3,7 @@ var tagPeopleSelector;
 
 $(document).ready(function(){
     username = $.cookie("username");
+    getLikes();
     retrieveTags();
     getComments();
 
@@ -12,8 +13,60 @@ $(document).ready(function(){
     $("#tagButton").click(function() {
         getUntaggedUsers();
     });
+    $("#likeButton").click(function() {
+        likeContent();
+    });
 });
 
+function getLikes(){
+    var requestData = {
+            "cid":cID
+    };
+    var likeCount = $("#likeCount");
+    $.ajax({
+        url:"getLikeCount",
+        type:"POST",
+        data:JSON.stringify(requestData),
+        contentType:"application/json",
+        dataType:"text",
+        timeout:60000,
+        error: function (data) {alert("Communication failed!"+data);},
+        success: function (result) {
+            var dataDict = JSON.parse(result);
+            if(dataDict["error"]){
+                likeCount.html("0");
+            }else{
+                likeCount.html(dataDict['count']);
+            }
+        }
+    });
+}
+
+function likeContent(){
+    var requestData = {
+            "username":username,
+            "cid":cID
+    };
+
+    $.ajax({
+        url:"likeContent",
+        type:"POST",
+        data:JSON.stringify(requestData),
+        contentType:"application/json",
+        dataType:"text",
+        timeout:60000,
+        error: function (data) {alert("Communication failed!"+data);},
+        success: function (result) {
+            var dataDict = JSON.parse(result);
+            if(dataDict["error"]){
+                showErrorMsg("_like",dataDict["error"]);
+            }else{
+                showSuccessMsg("_like",dataDict["msg"])
+            }
+            getLikes();
+        }
+    });
+}
 
 function retrieveTags() {
     var requestData = {
