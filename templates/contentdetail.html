@@ -7,6 +7,7 @@
     <script type="text/javascript" src="{{url_for('static', filename='other/jquery.cookie.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='other/bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='content.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='notification.js')}}"></script>
     <link href="{{url_for('static', filename='other/bootstrap.min.css')}}" rel="stylesheet">
     <style>
          body {
@@ -19,13 +20,14 @@
             border-color: #b8daff;
         }
     </style>
-    <script type="application/javascript">
+    <script type="application/javascript" hidden="hidden">
         var cID = "{{ cid }}";
         var isPublicContent = "{{public}}";
     </script>
 </head>
 <body>
 
+    <!-- navbar -->
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
                   aria-expanded="false" aria-label="Toggle navigation">
@@ -33,26 +35,61 @@
           </button>
           <a class="navbar-brand" href="/feed">PriCoSha</a>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="/groups">Groups <span class="sr-only">(current)</span></a>
-              </li>
+              <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/groups">Groups <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" id="noti-button" data-toggle="modal" data-target="#notiModal"></a>
+                  </li>
 
-            </ul>
+              </ul>
+
             <div class="nav-item dropdown">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{username}}</a>
+                        <p class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{username}}</p>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
                             <a class="dropdown-item" href="/logout">Sign Out</a>
                         </div>
                     </li>
-            </ul>
+                </ul>
             </div>
+
           </div>
     </nav>
 
     <div class="content-area">
+        <!--notification modal-->
+      <div class="modal fade show" id="notiModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+             <div class="modal-header">
+                  <h4 class="modal-title">Notifications:</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+             </div>
+
+              <div class="modal-body">
+                  <div class="msgbox_noti_success" hidden="hidden">
+                      <div class="alert alert-success" id="msg_noti_success">
+                      </div>
+                  </div>
+                  <div class="msgbox_noti" hidden="hidden">
+                      <div class="alert alert-primary" id="msg_noti">
+                      </div>
+                  </div>
+                  <ul class="list-group" id="notiList">
+
+                  </ul>
+              </div>
+              <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+          </div>
+        </div>
+      </div>
+
         <div class="picture-area" id="picture_field">
             <img id="picture" src="/uploads/{{ path }}" style="width:800px">
         </div>

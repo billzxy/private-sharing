@@ -77,7 +77,7 @@ def getTags():
     cid = content["cid"]
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = ("SELECT person.first_name AS fname, person.last_name AS lname FROM person "+
+    query = ("SELECT DISTINCT person.first_name AS fname, person.last_name AS lname FROM person "+
             "INNER JOIN tag ON person.username=tag.username_taggee "+
             "WHERE tag.id=%s AND tag.status=1")
 
