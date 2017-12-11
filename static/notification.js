@@ -39,7 +39,7 @@ function showNotification() {
                 var dataList = dataDict["data"];
                 for(var id=0; id<dataList.length;id++){
                     var content = "<li class=\"list-group-item\" id=\"tag--"+dataList[id]['tagger']+"--"+dataList[id]['id']+"\">" +
-                        dataList[id]['tagger']+" tagged you in a <a href=\""+"/content/"+dataList[id]['id']+"\">photo </a> <a class='noti-accept'>Accept </a> " +
+                        dataList[id]['first_name']+" "+dataList[id]['last_name']+" tagged you in a <a href=\""+"/content/"+dataList[id]['id']+"\">photo </a> <a class='noti-accept'>Accept </a> " +
                         "<a class='noti-decline'>Decline</a></li>";
                     agroupList.append(content);
                 }

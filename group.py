@@ -10,15 +10,28 @@ group = Blueprint('group_blueprint', __name__)
 def groupPage():
     try:
         username = session['username']
-        return render_template('grouplist.html', username=username)
     except:
         return redirect('/')
+    conn = dbconfig.getConnection()
+    cursor = conn.cursor()
+    query = 'SELECT first_name, last_name FROM person WHERE username = %s'
+    cursor.execute(query, (username))
+    data = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    fname = data['first_name']
+    lname = data['last_name']
+
+    return render_template('grouplist.html', username=username, fname=fname, lname=lname)
 
 @group.route("/getAllGroups",methods=["GET"])
 def getAllGroups():
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = 'SELECT * FROM friendgroup'
+    query = ('SELECT f.group_name AS group_name, f.username AS username_creator, '+
+            'f.description AS description, p.first_name AS first_name, p.last_name AS last_name '+
+            'FROM friendgroup f '+
+            'INNER JOIN person p ON f.username=p.username;')
     cursor.execute(query)
     data = cursor.fetchall()
     cursor.close()
@@ -38,9 +51,12 @@ def getMyGroups():
 
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = ("SELECT * FROM friendgroup"+
-            " INNER JOIN member ON friendgroup.username=member.username_creator"+
-            " WHERE member.username=%s")
+    query = ("SELECT f.group_name AS group_name, f.username AS username_creator,"+
+            "f.description AS description, p.first_name AS first_name, p.last_name AS last_name "+
+            "FROM friendgroup f "+
+            "INNER JOIN member m ON f.username=m.username_creator "+
+            "INNER JOIN person p ON m.username_creator=p.username "+
+            "WHERE m.username=%s;")
     cursor.execute(query, (username))
     data = cursor.fetchall()
     cursor.close()
@@ -93,7 +109,18 @@ def redirectGroupPage(group_name):
     params = group_name.split("6")
     groupname = params[0]
     owner = params[1]
-    return render_template('groupdetail.html', group_name=groupname, owner=owner,username=username)
+
+    conn = dbconfig.getConnection()
+    cursor = conn.cursor()
+    query = 'SELECT first_name, last_name FROM person WHERE username = %s'
+    cursor.execute(query, (username))
+    data = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    fname = data['first_name']
+    lname = data['last_name']
+
+    return render_template('groupdetail.html', group_name=groupname, owner=owner,username=username,fname=fname, lname=lname)
 
 
 @group.route("/group/getGroupContents",methods=["POST"])
@@ -105,11 +132,13 @@ def getGroupContents():
 
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = ("Select c.id as id, c.content_name as caption, c.username as owner, c.timest as timestamp, c.file_path as filePath "+
-        "From Content c inner join Share s on c.id = s.id "+
-        "inner join FriendGroup f on s.group_name = f.group_name AND s.username = f.username "+
-        "inner join Member m on f.group_name = m.group_name AND f.username = m.username_creator "+
-        "Where m.username = %s AND m.group_name = %s AND m.username_creator = %s")
+    query = ("Select c.id as id, c.content_name as caption, c.username as owner, c.timest as timestamp, c.file_path as filePath,"+
+            "p.first_name as first_name, p.last_name as last_name "+
+            "From Content c inner join Share s on c.id = s.id "+
+            "inner join FriendGroup f on s.group_name = f.group_name AND s.username = f.username "+
+            "inner join person p on f.username=p.username "+
+            "inner join Member m on f.group_name = m.group_name AND f.username = m.username_creator "+
+            "Where m.username = %s AND m.group_name = %s AND m.username_creator = %s")
 
     cursor.execute(query, (username, groupname, owner))
     data = cursor.fetchall()
@@ -118,7 +147,10 @@ def getGroupContents():
     if(data):
         for obj in data:
             img_path = obj['filePath']
-            obj['img'] = encodeThumbnail(img_path).lstrip("b'").rstrip("'")
+            try:
+                obj['img'] = encodeThumbnail(img_path).lstrip("b'").rstrip("'")
+            except AttributeError:
+                obj['img']="noimg"
         response = {"error": None, "data": data}
         return jsonify(response)
 

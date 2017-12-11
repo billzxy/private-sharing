@@ -48,7 +48,7 @@
             <div class="nav-item dropdown">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <p class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{username}}</p>
+                        <p class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{fname}}</p>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
                             <a class="dropdown-item" href="/logout">Sign Out</a>
                         </div>
@@ -95,7 +95,7 @@
         </div>
         <div id="content_detail">
             <h3>{{ contentname }}</h3>
-            <p>Uploader: {{ owner }}</p>
+            <p>Uploader: {{ fname }} {{ lname }}</p>
             <p>Time uploaded: {{ timest }}</p>
             <div class="tag-area">
                 <div class="msgbox_tag_after" hidden="hidden">

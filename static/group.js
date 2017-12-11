@@ -64,7 +64,7 @@ function getMyGroups(){
                         var content = "<div class='apost'><div class=\"card\" style=\"width:1000px\">\n" +
                             "    <div class=\"card-body\">\n" +
                             "      <h4 class=\"card-title\">"+dataList[id]['group_name']+"</h4>\n" +
-                            "      <p class=\"card-text\">Owner: "+dataList[id]['username_creator']+"</p>\n" +
+                            "      <p class=\"card-text\">Owner: "+dataList[id]['first_name']+" "+dataList[id]['last_name']+"</p>\n" +
                             "      <p class=\"card-text\">Description: "+dataList[id]['description']+"</p>\n" +
                             "      <a href=\"/group/"+ dataList[id]['group_name']+"6"+dataList[id]['username_creator']+"\" class=\"btn btn-primary\">Details</a>\n" +
                             "    </div>\n" +
@@ -96,7 +96,7 @@ function getAllGroups(){
                         var content = "<div class='apost'><div class=\"card\" style=\"width:1000px\">\n" +
                             "    <div class=\"card-body\">\n" +
                             "      <h4 class=\"card-title\">"+dataList[id]['group_name']+"</h4>\n" +
-                            "      <p class=\"card-text\">Owner: "+dataList[id]['username']+"</p>\n" +
+                            "      <p class=\"card-text\">Owner: "+dataList[id]['first_name']+" "+dataList[id]['last_name']+"</p>\n" +
                             "      <p class=\"card-text\">Description: "+dataList[id]['description']+"</p>\n" +
                             "    </div>\n" +
                             "  </div></div>";

@@ -232,7 +232,7 @@ function getComments(){
                         var content =
                         "<div class=\"card\">\n" +
                         "    <div class=\"card-body\">\n" +
-                        "      <h4 class=\"card-title\">"+dataList[id]['username']+":</h4>\n" +
+                        "      <h4 class=\"card-title\">"+dataList[id]['first_name']+" "+dataList[id]['last_name']+":</h4>\n" +
                         "      <p class=\"card-text\">"+dataList[id]['comment_text']+"</p>\n" +
                         "       <p>Posted On: "+dataList[id]['timest']+"</p>"+
                         "    </div>\n" +
