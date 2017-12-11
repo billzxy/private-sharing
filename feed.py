@@ -10,9 +10,20 @@ feed = Blueprint('feed_blueprint', __name__)
 def feedRedir():
     try:
         username = session['username']
-        return render_template('feed.html', username=username)
     except:
         return redirect('/')
+
+    conn = dbconfig.getConnection()
+    cursor = conn.cursor()
+    query = 'SELECT first_name, last_name FROM person WHERE username = %s'
+    cursor.execute(query, (username))
+    data = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    fname=data['first_name']
+    lname=data['last_name']
+
+    return render_template('feed.html', username=username,fname=fname,lname=lname)
 
 
 @feed.route("/getPostCount",methods=["POST"])
@@ -71,7 +82,11 @@ def getPosts():
 
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = 'SELECT * FROM content WHERE public=1 ORDER BY id DESC'
+    query = ('SELECT c.id AS id, c.username AS username, c.timest AS timest, c.file_path AS file_path, '+
+            'c.content_name AS content_name, c.public AS public, p.first_name AS first_name, '+
+            'p.last_name AS last_name FROM content c '+
+            'INNER JOIN person p ON c.username=p.username '+
+            'WHERE c.public=1 ORDER BY id DESC')
     cursor.execute(query)
     data = cursor.fetchall()
     cursor.close()
@@ -79,7 +94,10 @@ def getPosts():
     if (data):
         for obj in data:
             img_path = obj['file_path']
-            obj['img'] = encodeThumbnail(img_path).lstrip("b'").rstrip("'")
+            try:
+                obj['img'] = encodeThumbnail(img_path).lstrip("b'").rstrip("'")
+            except AttributeError:
+                obj['img']="noimg"
 
         response = {"error":None,"data":data}
         return jsonify(response)

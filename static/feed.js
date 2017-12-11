@@ -73,7 +73,7 @@ function getData(){
                             "    <img class=\"card-img-top\" src=\"data:image/png;base64, "+dataList[id]['img']+"\" alt=\"Card image\" style=\"width:100%\">\n" +
                             "    <div class=\"card-body\">\n" +
                             "      <h4 class=\"card-title\">"+dataList[id]['content_name']+"</h4>\n" +
-                            "      <p class=\"card-text\">Uploaded By: "+dataList[id]['username']+"</p>\n" +
+                            "      <p class=\"card-text\">Uploaded By: "+dataList[id]['first_name']+" "+dataList[id]['last_name']+"</p>\n" +
                             "      <p class=\"card-text\">Date Uploaded: "+dataList[id]['timest']+"</p>\n" +
                             "      <a href=\"/content/"+dataList[id]['id']+"\" class=\"btn btn-primary\">See Details</a>\n" +
                             "    </div>\n" +

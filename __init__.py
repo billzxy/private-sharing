@@ -34,9 +34,7 @@ def main():
         return render_template('main.html')
 
 
-app.secret_key = 'some key that you will never guess'  # TBD
-
-
+app.secret_key = 'private_content_share_project'  # TBD
 
 if __name__ == "__main__":
-    app.run('127.0.0.1', 8080, debug=True)
+    app.run('127.0.0.1', 8080, debug=False)

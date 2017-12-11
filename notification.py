@@ -37,7 +37,10 @@ def getTagMessages():
 
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = 'SELECT id, username_tagger AS tagger, username_taggee AS taggee FROM tag WHERE username_taggee = %s AND status=0;'
+    query = ('SELECT id, username_tagger AS tagger, p.first_name, p.last_name, username_taggee AS taggee '+
+            'FROM tag t INNER JOIN person p ON t.username_tagger=p.username '+
+            'WHERE username_taggee = %s AND status=0')
+
     cursor.execute(query, (username))
     data = cursor.fetchall()
     cursor.close()

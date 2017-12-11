@@ -13,7 +13,9 @@ def redirectContent(iD):
         return redirect('/')
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = 'SELECT * FROM content WHERE id=%s'
+    query =( 'SELECT c.id, c.username,c.timest,c.file_path,c.content_name,c.public,p.first_name,p.last_name FROM content c '+
+            'INNER JOIN person p ON c.username=p.username '+
+            'WHERE id=%s')
     cursor.execute(query,(int(iD)))
     data = cursor.fetchone()
     cursor.close()
@@ -23,8 +25,12 @@ def redirectContent(iD):
     filepath = data["file_path"]
     contentname = data["content_name"]
     public = data['public']
+    fname = data['first_name']
+    lname = data['last_name']
+
     return render_template('contentdetail.html', cid=iD,owner=owner,timest=time,path=lstripDirPath(filepath),contentname=contentname,
-                           username=username,public=public)
+                           username=username,public=public,fname=fname,
+                           lname=lname)
 
 
 @contents.route("/content/getComments",methods=["POST"])
@@ -33,7 +39,7 @@ def getComments():
     cid = content["cid"]
     conn = dbconfig.getConnection()
     cursor = conn.cursor()
-    query = 'SELECT * FROM comment WHERE id=%s ORDER BY timest DESC'
+    query = 'SELECT * FROM comment c JOIN person p ON p.username=c.username WHERE id=%s ORDER BY c.timest DESC'
 
     cursor.execute(query, (int(cid)))
     data = cursor.fetchall()
